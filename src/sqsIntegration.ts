@@ -26,23 +26,21 @@ export class SQSIntegration {
       indent: 2,
     });
 
-    code.line('import { APIGatewayProxyEvent, Context } from \'aws-lambda\';');
+    code.line('import { SQSEvent } from \'aws-lambda\';');
     code.line('import { Logger } from \'@aws-lambda-powertools/logger\';');
     code.line('');
     code.line('const logger = new Logger({ logLevel: \'INFO\', serviceName: \'Example\' });');
     code.line('');
-    code.open('export const handler = async(event: APIGatewayProxyEvent, context: Context) => {');
+    code.open('export const handler = async(event: SQSEvent) => {');
     code.line('logger.addContext(context);');
-    code.line('const body = JSON.parse(event.body ?? \'\');');
     code.line('');
-    code.line('logger.info(\'Payload\', body);');
+    code.open('for (const: record of event.Records) {');
+    code.line('const payload = JSON.parse(record.body);');
+    code.line('logger.info(\'Payload\', payload);');
     code.line('');
     code.line('// some code here');
-    code.line('');
-    code.open('return {');
-    code.line('statusCode: 200,');
-    code.line('body: JSON.stringify(body, undefined, 2)');
     code.close('}');
+    code.line('');
     code.close('}');
 
     code.synthesize();
