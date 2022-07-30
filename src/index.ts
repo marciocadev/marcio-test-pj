@@ -39,11 +39,15 @@ Basic project
 
     new HttpIntegration(this);
     new SQSIntegration(this);
+  }
 
+  synth(): void {
     this.addDeps('serverless');
     this.addDeps('serverless-esbuild');
     this.addDeps('@types/aws-lambda');
     this.addDeps('@aws-lambda-powertools/logger');
+
+    super.synth();
   }
 
   addScripts() {
