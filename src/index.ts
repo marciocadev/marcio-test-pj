@@ -13,13 +13,13 @@ Basic project
     super({
       github: false,
       projenrcTs: true,
+      licensed: false,
       readme: {
         filename: 'README.md',
         contents: readme,
       },
       sampleCode: false,
       deps: [
-        'projen',
         'serverless',
         'serverless-esbuild',
         '@types/aws-lambda',

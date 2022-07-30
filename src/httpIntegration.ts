@@ -1,9 +1,14 @@
+import { existsSync } from 'fs';
 import { JsonFile, Project, SourceCode, TextFile } from 'projen';
 
 export class HttpIntegration {
   constructor(project: Project) {
     this.schemaJson(project);
-    this.sampleCode(project);
+
+    if (!existsSync('src/http-integration/index.ts')) {
+      this.sampleCode(project);
+    }
+
     this.configYaml(project);
   }
 
