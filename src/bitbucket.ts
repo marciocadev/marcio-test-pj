@@ -97,6 +97,7 @@ pipelines:
 `;
 
   return new TextFile(project, 'bitbucket-pipelines.yml', {
+    readonly: false,
     committed: true,
     marker: false,
     lines: [bitbucketPipelinesObj],

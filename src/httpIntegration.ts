@@ -1,6 +1,6 @@
 import { JsonFile, Project, SourceCode, TextFile } from 'projen';
 
-export class ServerlessSample {
+export class HttpIntegration {
   constructor(project: Project) {
     this.schemaJson(project);
     this.sampleCode(project);
@@ -8,26 +8,26 @@ export class ServerlessSample {
   }
 
   sampleCode(project: Project) {
-    const code = new SourceCode(project, 'src/lambda/index.ts', {
+    const code = new SourceCode(project, 'src/http-integration/index.ts', {
       readonly: false,
       indent: 2,
     });
 
-    code.line('import { APIGatewayProxyEvent, Content } from \'aws-lambda\';');
+    code.line('import { APIGatewayProxyEvent, Context } from \'aws-lambda\';');
     code.line('import { Logger } from \'@aws-lambda-powertools/logger\';');
     code.line('');
     code.line('const logger = new Logger({ logLevel: \'INFO\', serviceName: \'Example\' });');
     code.line('');
     code.open('export const handler = async(event: APIGatewayProxyEvent, context: Context) => {');
     code.line('logger.addContext(context);');
-    code.line('const body = JSON.parse(event.body ?? \'\'');
+    code.line('const body = JSON.parse(event.body ?? \'\');');
     code.line('');
-    code.line('logger.info(\'Payload\' ,body);');
+    code.line('logger.info(\'Payload\', body);');
     code.line('');
     code.line('// some code here');
     code.open('return {');
     code.line('statusCode: 200,');
-    code.line('body: JSON.stringfy(body, undefined, 2)');
+    code.line('body: JSON.stringify(body, undefined, 2)');
     code.close('}');
     code.close('}');
 
@@ -35,7 +35,7 @@ export class ServerlessSample {
   }
 
   schemaJson(project: Project) {
-    return new JsonFile(project, 'src/lambda/schema.json', {
+    return new JsonFile(project, 'src/http-integration/schema.json', {
       marker: false,
       readonly: false,
       committed: true,
@@ -78,7 +78,7 @@ export class ServerlessSample {
       - \${cf:\${self:provider.env}-network.PrivateSubnetB}
 `;
 
-    return new TextFile(project, 'src/lambda/config.yml', {
+    return new TextFile(project, 'src/http-integration/config.yml', {
       marker: false,
       committed: true,
       readonly: false,

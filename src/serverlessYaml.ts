@@ -20,6 +20,7 @@ plugins:
 `;
 
   return new TextFile(project, 'serverless.yml', {
+    readonly: false,
     marker: false,
     committed: true,
     lines: [yaml],

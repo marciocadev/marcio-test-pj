@@ -1,7 +1,7 @@
 // import { NodePackage, NodePackageOptions } from 'projen/lib/javascript';
 import { TypeScriptProject, TypeScriptProjectOptions } from 'projen/lib/typescript';
 import { bitbucketPipelines } from './bitbucket';
-import { ServerlessSample } from './serverlessSample';
+import { HttpIntegration } from './httpIntegration';
 import { serverlessYaml } from './serverlessYaml';
 
 export class MarcioTestPj extends TypeScriptProject {
@@ -35,7 +35,7 @@ Basic project
     serverlessYaml(this);
     bitbucketPipelines(this);
 
-    new ServerlessSample(this);
+    new HttpIntegration(this);
   }
 
   addScripts() {
