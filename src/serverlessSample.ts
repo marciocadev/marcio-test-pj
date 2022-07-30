@@ -4,6 +4,7 @@ export class ServerlessSample {
   constructor(project: Project) {
     this.configYaml(project);
     this.schemaJson(project);
+    this.sampleCode(project);
   }
 
   sampleCode(project: Project) {
