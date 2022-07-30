@@ -9,5 +9,7 @@ const project = new cdk.JsiiProject({
 
   release: true,
   publishTasks: true,
+  deps: ['projen'],
+  peerDeps: ['projen'],
 });
 project.synth();
