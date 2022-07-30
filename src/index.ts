@@ -49,8 +49,8 @@ Basic project
                 {
                   step: {
                     '<<': '*sls-deploy',
-                    name: 'Dev',
-                    deployment: 'dev',
+                    'name': 'Dev',
+                    'deployment': 'dev',
                   },
                 },
               ],
@@ -61,23 +61,61 @@ Basic project
                 {
                   step: {
                     '<<': '*sls-deploy',
-                    name: 'Stage',
-                    deployment: 'hmg',
-                    trigger: 'manual',
+                    'name': 'Stage',
+                    'deployment': 'hmg',
+                    'trigger': 'manual',
                   },
                 },
                 {
                   step: {
                     '<<': '*tag',
-                    trigger: 'manual',
+                    'trigger': 'manual',
                   },
                 },
                 {
                   step: {
                     '<<': '*sls-deploy',
-                    name: 'Production',
-                    deployment: 'prd',
-                    trigger: 'manual',
+                    'name': 'Production',
+                    'deployment': 'prd',
+                    'trigger': 'manual',
+                  },
+                },
+              ],
+            },
+            {
+              'hotfix/*': [
+                { step: '*npm-install' },
+                {
+                  step: {
+                    '<<': '*sls-deploy',
+                    'name': 'Dev',
+                    'deployment': 'dev',
+                  },
+                },
+                {
+                  parallel: [
+                    {
+                      step: {
+                        '<<': '*sls-deploy',
+                        'name': 'Stage',
+                        'deployment': 'hmg',
+                        'trigger': 'manual',
+                      },
+                    },
+                    {
+                      step: {
+                        '<<': '*tag',
+                        'trigger': 'manual',
+                      },
+                    },
+                  ],
+                },
+                {
+                  step: {
+                    '<<': '*sls-deploy',
+                    'name': 'Production',
+                    'deployment': 'prd',
+                    'trigger': 'manual',
                   },
                 },
               ],
