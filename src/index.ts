@@ -3,6 +3,7 @@ import { bitbucketPipelines } from './bitbucket';
 import { HttpIntegration } from './httpIntegration';
 import { serverlessYaml } from './serverlessYaml';
 import { SQSIntegration } from './sqsIntegration';
+import { vscodeSettings } from './vscode';
 
 export class MarcioTestPj extends TypeScriptProject {
   constructor(options: TypeScriptProjectOptions) {
@@ -19,12 +20,12 @@ Basic project
         contents: readme,
       },
       sampleCode: false,
-      deps: [
-        'serverless',
-        'serverless-esbuild',
-        '@types/aws-lambda',
-        '@aws-lambda-powertools/logger',
-      ],
+      // deps: [
+      //   'serverless',
+      //   'serverless-esbuild',
+      //   '@types/aws-lambda',
+      //   '@aws-lambda-powertools/logger',
+      // ],
       ...options,
     });
 
@@ -32,11 +33,17 @@ Basic project
 
     this.addScripts();
 
+    vscodeSettings(this);
     serverlessYaml(this);
     bitbucketPipelines(this);
 
     new HttpIntegration(this);
     new SQSIntegration(this);
+
+    this.addDeps('serverless');
+    this.addDeps('serverless-esbuild');
+    this.addDeps('@types/aws-lambda');
+    this.addDeps('@aws-lambda-powertools/logger');
   }
 
   addScripts() {
