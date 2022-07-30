@@ -2,6 +2,7 @@ import { TypeScriptProject, TypeScriptProjectOptions } from 'projen/lib/typescri
 import { bitbucketPipelines } from './bitbucket';
 import { HttpIntegration } from './httpIntegration';
 import { serverlessYaml } from './serverlessYaml';
+import { SQSIntegration } from './sqsIntegration';
 
 export class MarcioTestPj extends TypeScriptProject {
   constructor(options: TypeScriptProjectOptions) {
@@ -35,6 +36,7 @@ Basic project
     bitbucketPipelines(this);
 
     new HttpIntegration(this);
+    new SQSIntegration(this);
   }
 
   addScripts() {
