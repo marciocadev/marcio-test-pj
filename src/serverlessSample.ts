@@ -2,9 +2,9 @@ import { JsonFile, Project, SourceCode, TextFile } from 'projen';
 
 export class ServerlessSample {
   constructor(project: Project) {
-    this.configYaml(project);
     this.schemaJson(project);
     this.sampleCode(project);
+    this.configYaml(project);
   }
 
   sampleCode(project: Project) {
@@ -37,6 +37,7 @@ export class ServerlessSample {
   schemaJson(project: Project) {
     return new JsonFile(project, 'src/lambda/schema.json', {
       marker: false,
+      readonly: false,
       committed: true,
       obj: {
         $schema: 'http://json-schema.org/draft-04/schema',
@@ -78,8 +79,9 @@ export class ServerlessSample {
 `;
 
     return new TextFile(project, 'src/lambda/config.yml', {
-      marker: true,
+      marker: false,
       committed: true,
+      readonly: false,
       lines: [obj],
     });
   }
