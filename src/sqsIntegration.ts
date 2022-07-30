@@ -26,15 +26,15 @@ export class SQSIntegration {
       indent: 2,
     });
 
-    code.line('import { SQSEvent } from \'aws-lambda\';');
+    code.line('import { SQSEvent, Context } from \'aws-lambda\';');
     code.line('import { Logger } from \'@aws-lambda-powertools/logger\';');
     code.line('');
     code.line('const logger = new Logger({ logLevel: \'INFO\', serviceName: \'Example\' });');
     code.line('');
-    code.open('export const handler = async(event: SQSEvent) => {');
+    code.open('export const handler = async(event: SQSEvent, context: Context) => {');
     code.line('logger.addContext(context);');
     code.line('');
-    code.open('for (const: record of event.Records) {');
+    code.open('for (const record of event.Records) {');
     code.line('const payload = JSON.parse(record.body);');
     code.line('logger.info(\'Payload\', payload);');
     code.line('');
