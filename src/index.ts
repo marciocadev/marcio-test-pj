@@ -1,6 +1,7 @@
 // import { NodePackage, NodePackageOptions } from 'projen/lib/javascript';
 import { TypeScriptProject, TypeScriptProjectOptions } from 'projen/lib/typescript';
 import { bitbucketPipelines } from './bitbucket';
+import { serverlessYaml } from './serverlessYaml';
 
 export class MarcioTestPj extends TypeScriptProject {
   constructor(options: TypeScriptProjectOptions) {
@@ -47,12 +48,8 @@ Basic project
     this.package.setScript('deploy', 'sls deploy');
     this.package.setScript('remove', 'sls remove');
     this.package.setScript('package', 'sls package');
-  }
 
-  synth(): void {
-
+    serverlessYaml(this);
     bitbucketPipelines(this);
-
-    super.synth();
   }
 }

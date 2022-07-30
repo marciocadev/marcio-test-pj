@@ -98,8 +98,6 @@ pipelines:
 
   return new TextFile(project, 'bitbucket-pipelines.yml', {
     committed: true,
-    lines: [
-      bitbucketPipelinesObj,
-    ],
+    lines: [bitbucketPipelinesObj],
   });
 }
