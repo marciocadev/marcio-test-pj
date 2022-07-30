@@ -26,6 +26,7 @@ plugins:
 
 functions:
   - \${file(src/http-integration/config.yml)}
+  - \${file(src/sqs-integration/config.yml)}
 `;
 
   return new TextFile(project, 'serverless.yml', {

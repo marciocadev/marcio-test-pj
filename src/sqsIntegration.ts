@@ -1,22 +1,22 @@
 import { existsSync } from 'fs';
-import { JsonFile, Project, SourceCode, TextFile } from 'projen';
+import { Project, SourceCode, TextFile } from 'projen';
 
-export class HttpIntegration {
-  readonly indexPath = 'src/http-integration/index.ts';
-  readonly configPath = 'src/http-integration/config.yml';
-  readonly schemaJsonPath = 'src/http-integration/schema.json';
+export class SQSIntegration {
+  readonly indexPath = 'src/sqs-integration/index.ts';
+  readonly configPath = 'src/sqs-integration/config.yml';
+  readonly sqsCfnPath = 'cloudformation/sqs.yml';
 
   constructor(project: Project) {
-    if (!existsSync(this.schemaJsonPath)) {
-      this.schemaJson(project);
-    }
-
     if (!existsSync(this.indexPath)) {
       this.sampleCode(project);
     }
 
     if (!existsSync(this.configPath)) {
       this.configYaml(project);
+    }
+
+    if (!existsSync(this.sqsCfnPath)) {
+      this.sqsCfnYaml(project);
     }
   }
 
@@ -48,41 +48,17 @@ export class HttpIntegration {
     code.synthesize();
   }
 
-  schemaJson(project: Project) {
-    return new JsonFile(project, this.schemaJsonPath, {
-      marker: false,
-      readonly: false,
-      committed: true,
-      obj: {
-        $schema: 'http://json-schema.org/draft-04/schema',
-        type: 'object',
-        required: ['intType'],
-        properties: {
-          intType: { type: 'integer' },
-          objType: {
-            type: 'object',
-            properties: {
-              numType: { type: 'number' },
-              strType: { type: 'string' },
-            },
-          },
-        },
-      },
-    });
-  }
-
   configYaml(project: Project) {
-    const obj = `LambdaHTTPExample:
-  name: \${self:provider.stage}-\${self:service}-lambda-http-example
-  handler: src/http-integration/index.handler
+    const obj = `LambdaSQSExample:
+  name: \${self:provider.stage}-\${self:service}-lambda-sqs-example
+  handler: src/sqs-integration/index.handler
 
   events:
-    - http:
-      method: post
-      path: http/example
-      request:
-        schemas:
-          application/json: \${file(src/lambda/schema.json)}
+    - sqs:
+        arn:
+          Fn::GetAtt:
+              - ExampleQueue
+              - Arn
 
   vpc:
     securityGroupIds:
@@ -93,6 +69,22 @@ export class HttpIntegration {
 `;
 
     return new TextFile(project, this.configPath, {
+      marker: false,
+      committed: true,
+      readonly: false,
+      lines: [obj],
+    });
+  }
+
+  sqsCfnYaml(project: Project) {
+    const obj = `Resources:
+  ExampleQueue:
+    Type: AWS::SQS::Queue
+      Properties:
+        QueueName: \${self:provider.stage}-\${self:service}-sqs-example
+`;
+
+    return new TextFile(project, this.sqsCfnPath, {
       marker: false,
       committed: true,
       readonly: false,
