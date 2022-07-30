@@ -49,8 +49,35 @@ Basic project
                 {
                   step: {
                     '<<': '*sls-deploy',
-                    'name': 'Dev',
-                    'deployment': 'dev',
+                    name: 'Dev',
+                    deployment: 'dev',
+                  },
+                },
+              ],
+            },
+            {
+              'release/*': [
+                { step: '*npm-install' },
+                {
+                  step: {
+                    '<<': '*sls-deploy',
+                    name: 'Stage',
+                    deployment: 'hmg',
+                    trigger: 'manual',
+                  },
+                },
+                {
+                  step: {
+                    '<<': '*tag',
+                    trigger: 'manual',
+                  },
+                },
+                {
+                  step: {
+                    '<<': '*sls-deploy',
+                    name: 'Production',
+                    deployment: 'prd',
+                    trigger: 'manual',
                   },
                 },
               ],
@@ -59,5 +86,7 @@ Basic project
         },
       },
     });
+
+    super.synth();
   }
 }
