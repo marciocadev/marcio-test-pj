@@ -1,5 +1,5 @@
 import { YamlFile } from 'projen';
-import { NodePackage, NodePackageOptions } from 'projen/lib/javascript';
+// import { NodePackage, NodePackageOptions } from 'projen/lib/javascript';
 import { TypeScriptProject, TypeScriptProjectOptions } from 'projen/lib/typescript';
 
 export class MarcioTestPj extends TypeScriptProject {
