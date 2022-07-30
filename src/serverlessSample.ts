@@ -1,21 +1,55 @@
-import { JsonFile, Project, TextFile } from 'projen';
+import { JsonFile, Project, SourceCode, TextFile } from 'projen';
 
 export class ServerlessSample {
   constructor(project: Project) {
     this.configYaml(project);
+    this.schemaJson(project);
   }
 
-  schameJson(project: Project) {
-    return new JsonFile(project, 'src/lambda/this.schameJson.json', {
+  sampleCode(project: Project) {
+    const code = new SourceCode(project, 'src/lambda/index.ts', {
+      readonly: false,
+      indent: 2,
+    });
+
+    code.line('import { APIGatewayProxyEvent, Content } from \'aws-lambda\';');
+    code.line('import { Logger } from \'@aws-lambda-powertools/logger\';');
+    code.line('');
+    code.line('const logger = new Logger({ logLevel: \'INFO\', serviceName: \'Example\' });');
+    code.line('');
+    code.open('export const handler = async(event: APIGatewayProxyEvent, context: Context) => {');
+    code.line('logger.addContext(context);');
+    code.line('const body = JSON.parse(event.body ?? \'\'');
+    code.line('');
+    code.line('logger.info(\'Payload\' ,body);');
+    code.line('');
+    code.line('// some code here');
+    code.open('return {');
+    code.line('statusCode: 200,');
+    code.line('body: JSON.stringfy(body, undefined, 2)');
+    code.close('}');
+    code.close('}');
+
+    code.synthesize();
+  }
+
+  schemaJson(project: Project) {
+    return new JsonFile(project, 'src/lambda/schema.json', {
       marker: false,
       committed: true,
       obj: {
         $schema: 'http://json-schema.org/draft-04/schema',
         type: 'object',
-        required: ['id'],
+        required: ['intType'],
         properties: {
-          id: { type: 'integer' },
-          name: { type: 'string' },
+          intType: { type: 'integer' },
+          objType: {
+            type: 'object',
+            properties: {
+              numType: { type: 'number' },
+              strType: { type: 'string' },
+            },
+          },
         },
       },
     });
