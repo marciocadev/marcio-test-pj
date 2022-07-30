@@ -49,7 +49,7 @@ Basic project
     this.package.removeScript('clobber');
     this.package.removeScript('default');
     this.package.removeScript('eject');
-    //this.package.removeScript('eslint');
+    this.package.removeScript('eslint');
     this.package.removeScript('package');
     this.package.removeScript('post-compile');
     this.package.removeScript('post-upgrade');
