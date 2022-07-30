@@ -1,6 +1,7 @@
 // import { NodePackage, NodePackageOptions } from 'projen/lib/javascript';
 import { TypeScriptProject, TypeScriptProjectOptions } from 'projen/lib/typescript';
 import { bitbucketPipelines } from './bitbucket';
+import { ServerlessSample } from './serverlessSample';
 import { serverlessYaml } from './serverlessYaml';
 
 export class MarcioTestPj extends TypeScriptProject {
@@ -16,6 +17,7 @@ Basic project
         filename: 'README.md',
         contents: readme,
       },
+      sampleCode: false,
       deps: [
         'projen',
         'serverless',
@@ -26,6 +28,23 @@ Basic project
       ...options,
     });
 
+    this.removeUndesirebleScripts();
+
+    this.addScripts();
+
+    serverlessYaml(this);
+    bitbucketPipelines(this);
+
+    new ServerlessSample(this);
+  }
+
+  addScripts() {
+    this.package.setScript('deploy', 'sls deploy');
+    this.package.setScript('remove', 'sls remove');
+    this.package.setScript('package', 'sls package');
+  }
+
+  removeUndesirebleScripts() {
     this.package.removeScript('build');
     this.package.removeScript('bump');
     this.package.removeScript('clobber');
@@ -44,12 +63,5 @@ Basic project
     this.package.removeScript('upgrade');
     this.package.removeScript('watch');
     this.package.removeScript('projen');
-
-    this.package.setScript('deploy', 'sls deploy');
-    this.package.setScript('remove', 'sls remove');
-    this.package.setScript('package', 'sls package');
-
-    serverlessYaml(this);
-    bitbucketPipelines(this);
   }
 }
