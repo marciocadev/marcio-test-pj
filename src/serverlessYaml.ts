@@ -8,6 +8,7 @@ export function serverlessYaml(project: Project) {
 
   const yaml = `service: ${project.name}
 frameworkVersion: '3'
+configValidatorMode: error
 
 provider:
   name: aws
@@ -22,6 +23,9 @@ custom:
 
 plugins:
   - serverless-esbuild
+
+functions:
+  - \${file(src/http-integration/config.yml)}
 `;
 
   return new TextFile(project, 'serverless.yml', {
