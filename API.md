@@ -58,6 +58,8 @@ new MarcioTestPj(options: TypeScriptProjectOptions)
 | <code><a href="#marcio-test-pj.MarcioTestPj.removeScript">removeScript</a></code> | Removes the npm script (always successful). |
 | <code><a href="#marcio-test-pj.MarcioTestPj.renderWorkflowSetup">renderWorkflowSetup</a></code> | Returns the set of workflow steps which should be executed to bootstrap a workflow. |
 | <code><a href="#marcio-test-pj.MarcioTestPj.setScript">setScript</a></code> | Replaces the contents of an npm package.json script. |
+| <code><a href="#marcio-test-pj.MarcioTestPj.addScripts">addScripts</a></code> | *No description.* |
+| <code><a href="#marcio-test-pj.MarcioTestPj.removeUndesirebleScripts">removeUndesirebleScripts</a></code> | *No description.* |
 
 ---
 
@@ -554,6 +556,18 @@ The script name.
 The command to execute.
 
 ---
+
+##### `addScripts` <a name="addScripts" id="marcio-test-pj.MarcioTestPj.addScripts"></a>
+
+```typescript
+public addScripts(): void
+```
+
+##### `removeUndesirebleScripts` <a name="removeUndesirebleScripts" id="marcio-test-pj.MarcioTestPj.removeUndesirebleScripts"></a>
+
+```typescript
+public removeUndesirebleScripts(): void
+```
 
 
 #### Properties <a name="Properties" id="Properties"></a>
