@@ -1,6 +1,11 @@
+import { existsSync } from 'fs';
 import { Project, TextFile } from 'projen';
 
 export function bitbucketPipelines(project: Project) {
+
+  if (existsSync('bitbucket-pipelines.yml')) {
+    return;
+  }
 
   const bitbucketPipelinesObj = `definitions:
   steps:

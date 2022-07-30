@@ -3,13 +3,17 @@ import { JsonFile, Project, SourceCode, TextFile } from 'projen';
 
 export class HttpIntegration {
   constructor(project: Project) {
-    this.schemaJson(project);
+    if (!existsSync('src/http-integration/schema.json')) {
+      this.schemaJson(project);
+    }
 
     if (!existsSync('src/http-integration/index.ts')) {
       this.sampleCode(project);
     }
 
-    this.configYaml(project);
+    if (!existsSync('src/http-integration/config.yml')) {
+      this.configYaml(project);
+    }
   }
 
   sampleCode(project: Project) {
@@ -30,6 +34,7 @@ export class HttpIntegration {
     code.line('logger.info(\'Payload\', body);');
     code.line('');
     code.line('// some code here');
+    code.line('');
     code.open('return {');
     code.line('statusCode: 200,');
     code.line('body: JSON.stringify(body, undefined, 2)');

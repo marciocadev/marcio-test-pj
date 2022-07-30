@@ -1,6 +1,11 @@
+import { existsSync } from 'fs';
 import { Project, TextFile } from 'projen';
 
 export function serverlessYaml(project: Project) {
+  if (existsSync('serverless.yml')) {
+    return;
+  }
+
   const yaml = `service: ${project.name}
 frameworkVersion: '3'
 
